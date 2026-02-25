@@ -34,7 +34,7 @@ void createList(list *L){
     }
 }
 
-// menghitung banyak elemen yang tidak kosong
+// menghitung elemen yang tidak kosong dan mengembalikannya untuk diproses berikutnya
 int countElement(list L){
     int hasil = 0;
     if(L.first != -1){// cek apakah list pertama kosong atau tidak
@@ -59,14 +59,14 @@ int countElement(list L){
 
 // mencari bagian list yang masih belum di isi oleh nilai
 int emptyElement(list L){
-    int hasil = -1; // nilai indeks awal, nantinya akan disisi dengan indeks list yang masih kosong
+    int hasil = -1; // nilai indeks awal null, nantinya akan disisi dengan indeks list yang masih kosong
 
     if(countElement(L) < 10){ // selama masih belum melakukn iterasi kurang dari sepuluh
         int ketemu = 0; // penanda jika sudah ketemu atau belum
 
         int i = 0; // iterator
         while((ketemu == 0)&&(i < 10)){ // looping selama belum menmukan yang kosong dan belum melalui semua list
-            if(L.data[i].next == -2){ // jika nilai list berikutnya -2 maka list berikutny itu kosong
+            if(L.data[i].next == -2){ // jika nilai list berikutnya -2 maka list berikutnya itu kosong
                 hasil = i; // indeks sekarang adalah indeksnya
                 ketemu = 1; // penanda agar keluar dari loop
             }else{ // tambah iterasi lagi
