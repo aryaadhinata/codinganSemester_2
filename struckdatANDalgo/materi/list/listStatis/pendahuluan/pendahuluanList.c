@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 // program ini mebuat list statis dalam bentuk array dan juga beberapa cara yang bisa dilakukan untuk mengakses list
 
 // first, next, hapus dan tunjuk adalah sebuah pointer tipe integer
@@ -256,11 +257,11 @@ int main(){
                 char nimSec[10], namaSec[50], nilaiSec[3];
 
                 printf("masukan valuenya\n");
-                printf("nim \t:");
+                printf("nim \t: ");
                 scanf("%s", nimSec);
-                printf("nama \t:");
+                printf("nama \t: ");
                 scanf("%s", namaSec);
-                printf("nilai \t:");
+                printf("nilai \t: ");
                 scanf("%s", nilaiSec);
                 
                 printf("\n======== Menu Add =======\n");
@@ -358,6 +359,7 @@ int main(){
             }
         }
 
+        system("cls");
         // pengkondisian jika memilih untuk menampilkan elemen atau keluar dari loop
         if(kondAwal == 9 || kondSec == 9){
             printElement(L);
