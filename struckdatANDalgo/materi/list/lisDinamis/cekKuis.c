@@ -132,13 +132,15 @@ void pindah(list *L, elemen* pindah){
     elemen* prefPindah = L->first;
     elemen* prefAkhir = L->first;
     //printf("masuk pindah\n");
-    while(prefPindah->next != pindah){
-        printf("%d -- %d\n", prefPindah->next->kontainer.tahun, pindah->kontainer.tahun);
-        prefPindah = prefPindah->next;
+    if(pindah != L->first){
+        while(prefPindah->next != pindah){
+            printf("%d -- %d\n", prefPindah->next->kontainer.tahun, pindah->kontainer.tahun);
+            prefPindah = prefPindah->next;
+        }
     }
     
     while(prefAkhir->next != NULL){
-        printf("masuk pindah while 2\n");
+        //printf("masuk pindah while 2\n");
         prefAkhir = prefAkhir->next;
     }
 
@@ -158,12 +160,12 @@ void pindah(list *L, elemen* pindah){
 void walk(list L, int trashHold){
     elemen* tunjuk = L.first;
     while(tunjuk != NULL){
-        //printf("%s\n", tunjuk->kontainer.nama); // salah disini brok si while nggak jalan cuma masuk sekali
+        printf("%s\n", tunjuk->kontainer.nama); // salah disini brok si while nggak jalan cuma masuk sekali
         if(tunjuk->kontainer.tahun < trashHold){
             tunjuk->kontainer.uang = 0;
             strcpy(tunjuk->kontainer.kondPut, "diputihkan");
             pindah(&L, tunjuk);
-        }
+        }  
         tunjuk = tunjuk->next;
     }
     free(tunjuk);
@@ -172,7 +174,8 @@ void walk(list L, int trashHold){
 void printElemen(list L){
     elemen* tunjuk = L.first;
     while(tunjuk != NULL){
-        printf("%s %d %lld %s", tunjuk->kontainer.nama, tunjuk->kontainer.tahun, tunjuk->kontainer.uang, tunjuk->kontainer.kondPut);
+        printf("%s %d %lld %s\n", tunjuk->kontainer.nama, tunjuk->kontainer.tahun, tunjuk->kontainer.uang, tunjuk->kontainer.kondPut);
+        tunjuk = tunjuk->next;
     }
 }
 
