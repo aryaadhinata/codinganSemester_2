@@ -47,21 +47,22 @@ void addFirst(nilai temp, list *L){
 }
 
 void addAfter(elemen* prev, nilai temp, list *L){
-    elemen* baru;
-    baru = (elemen*) malloc(sizeof(elemen));
-    baru->kontainer = temp;
-
-    if(prev->next == NULL){
-    // jika elemen di akhir (prev next null)
-    baru->next = NULL;
-    } else{
-
-    // jika elemen bukan di akhir
-    baru->next = prev->next;
+    if(prev != NULL){
+        elemen* baru;
+        baru = (elemen*) malloc(sizeof(elemen));
+        baru->kontainer = temp;
+    
+        if(prev->next == NULL){
+            // jika elemen di akhir (prev next null)
+            baru->next = NULL;
+        } else{
+        // jika elemen bukan di akhir
+        baru->next = prev->next;
+        }
+    
+        prev->next = baru;
+        baru = NULL;
     }
-
-    prev->next = baru;
-    baru = NULL;
 }
 
 void addLast(nilai temp, list *L){
@@ -102,20 +103,19 @@ void delFirst(list *L){
 }
 
 void delAfter(elemen* prev, list *L){
-
     if(prev != NULL){
     // jika prev bukan NULL
     // declare pointer hapus dan diisi prev next
 
     elemen* hapus = prev->next;
-        if(hapus->next == NULL){
+    if(hapus->next == NULL){
         // jika elemen di akhir
         prev->next = NULL;
-        }else{
+    }else{
         // jika elemen bukan di akhir
         prev->next = hapus->next;
         hapus->next = NULL;
-        }
+    }
     // hapus di free kan
     free(hapus);
     }
@@ -123,21 +123,21 @@ void delAfter(elemen* prev, list *L){
 
 void delLast(list *L){
     if((*L).first != NULL){
-    // jika list tidak kosong 
+        // jika list tidak kosong 
         if(countElement(*L) == 1){
-        // jika elemen hanya 1 gunakan delFirst
-        delFirst(L);
+            // jika elemen hanya 1 gunakan delFirst
+            delFirst(L);
         }else{
-        // jika elemen lebih dari 1
-        // declare pointer last dan prev
-        elemen* last = (*L).first;
-        elemen* prev;
+            // jika elemen lebih dari 1
+            // declare pointer last dan prev
+            elemen* last = (*L).first;
+            elemen* prev;
 
-        // loop untuk mencari posisi last dan prev
-        while(last->next != NULL){
-            prev = last;
-            last = last->next;
-        }
+            // loop untuk mencari posisi last dan prev
+            while(last->next != NULL){
+                prev = last;
+                last = last->next;
+            }
         delAfter(prev, L);
         }
     }
@@ -145,13 +145,13 @@ void delLast(list *L){
 
 void delAll(list *L){
     if(countElement(*L) != 0){
-    int i;
+        int i;
 
-    for(i=countElement(*L);i>=1;i--){
-        /*proses menghapus elemen list*/
-        delLast(L);
+        for(i=countElement(*L);i>=1;i--){
+            /*proses menghapus elemen list*/
+            delLast(L);
+        }
     }
-}
 }
 
 void printElement(list L){

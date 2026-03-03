@@ -8,18 +8,18 @@
 */
 
 typedef struct{
-char brand[33], jenPak[17], avabli[17];
-int stock;
+	char brand[33], jenPak[17], avabli[17];
+	int stock;
 }nilai;
 
 typedef struct elmt* alamatelmt;
 typedef struct elmt{
-nilai kontainer;
-alamatelmt next;
+	nilai kontainer;
+	alamatelmt next;
 } elemen;
 
 typedef struct{
-elemen* first;
+	elemen* first;
 }list;
 
 void createList(list *L);
