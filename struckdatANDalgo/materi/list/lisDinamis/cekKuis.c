@@ -134,41 +134,40 @@ void pindah(list *L, elemen* pindah){
     //printf("masuk pindah\n");
     if(pindah != L->first){
         while(prefPindah->next != pindah){
-            printf("%d -- %d\n", prefPindah->next->kontainer.tahun, pindah->kontainer.tahun);
+            //printf("%d -- %d\n", prefPindah->next->kontainer.tahun, pindah->kontainer.tahun);
             prefPindah = prefPindah->next;
         }
+        prefPindah->next = pindah->next;
+    }else{ // lsitnya keputus di awal jadi zombie
+        L->first = prefPindah->next;
     }
     
     while(prefAkhir->next != NULL){
         //printf("masuk pindah while 2\n");
         prefAkhir = prefAkhir->next;
     }
+    
+    prefAkhir->next = pindah;
+    // pindah->next = NULL;
 
-    prefPindah->next = pindah->next;
-    prefAkhir = pindah;
     pindah->next = NULL;
-
     prefPindah = NULL;
     prefAkhir = NULL;
-    pindah = NULL;
-
-    free(prefPindah);
-    free(prefAkhir);
-    free(pindah);
 }
 
-void walk(list L, int trashHold){
-    elemen* tunjuk = L.first;
-    while(tunjuk != NULL){
-        printf("%s\n", tunjuk->kontainer.nama); // salah disini brok si while nggak jalan cuma masuk sekali
-        if(tunjuk->kontainer.tahun < trashHold){
+void walk(list* L, int trashHold){ // belum kepindah
+    elemen* tunjuk = (*L).first;
+    while((tunjuk != NULL) && (tunjuk->kontainer.uang != 0)){
+        if(tunjuk->kontainer.tahun <= trashHold){
             tunjuk->kontainer.uang = 0;
             strcpy(tunjuk->kontainer.kondPut, "diputihkan");
-            pindah(&L, tunjuk);
-        }  
-        tunjuk = tunjuk->next;
+        
+            pindah(L, tunjuk);
+            tunjuk = (*L).first;
+        }else{
+            tunjuk = tunjuk->next;
+        }
     }
-    free(tunjuk);
 }
 
 void printElemen(list L){
@@ -195,7 +194,7 @@ int main() {
     int trashHold;
     scanf("%d", &trashHold);
 
-    walk(L, trashHold);
+    walk(&L, trashHold);
     printElemen(L);
     return 0;
 }
