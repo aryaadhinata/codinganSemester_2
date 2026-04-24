@@ -4,12 +4,13 @@
 typedef struct{
     char nim[10];
     char nama[50];
-    float nilai;
-}nilaiMatKul;
+    float skor;
+}nilai;
+
 typedef struct{
     int first;
     int last;
-nilaiMatKul data[10];
+nilai data[10];
 }queue;
 
 void createEmpty(queue *Q){
@@ -33,22 +34,17 @@ int isFull(queue Q){
 return hasil;
 }
 
-void add(char nim[], char nama[],
-    float nilai, queue *Q ){
+void add(nilai temp, queue *Q ){
     if(isEmpty(*Q) == 1){
         /* jika queue kosong */
         (*Q).first = 0;
         (*Q).last = 0;
-        strcpy((*Q).data[0].nim, nim);
-        strcpy((*Q).data[0].nama, nama);
-        (*Q).data[0].nilai = nilai;
+        (*Q).data[0] = temp;
     }else{
         /* jika queue tidak kosong */
         if(isFull(*Q) != 1){
             (*Q).last = (*Q).last + 1;
-            strcpy((*Q).data[(*Q).last].nim, nim);
-            strcpy((*Q).data[(*Q).last].nama, nama);
-            (*Q).data[(*Q).last].nilai = nilai;
+            (*Q).data[(*Q).last] = temp;
         }else{
             printf("queue penuh\n");
         }
@@ -63,9 +59,7 @@ void del(queue *Q){
         /*menggeser elemen ke depan*/
         int i;
         for(i=((*Q).first + 1);i<=(*Q).last;i++){
-            strcpy((*Q).data[i-1].nim, (*Q).data[i].nim);
-            strcpy((*Q).data[i-1].nama, (*Q).data[i].nama);
-            (*Q).data[i-1].nilai = (*Q).data[i].nilai;
+            (*Q).data[i-1] = (*Q).data[i];
         }
         (*Q).last = (*Q).last - 1;
     }
@@ -80,7 +74,7 @@ void printQueue(queue Q){
             printf("elemen ke : %d\n", i);
             printf("nim : %s\n", Q.data[i].nim);
             printf("nama : %s\n", Q.data[i].nama);
-            printf("nilai : %f\n", Q.data[i].nilai);
+            printf("nilai : %f\n", Q.data[i].skor);
         }
         printf("---------------------\n");
     }else{
@@ -92,11 +86,24 @@ void printQueue(queue Q){
 int main(){
     queue Q;
     createEmpty(&Q);
+    nilai temp;
     printQueue(Q);
     printf("=================\n");
-    add("13507701", "Nana", 64.75, &Q);
-    add("13507702", "Rudi", 75.11, &Q);
-    add("13507703", "Dea", 84.63, &Q);
+    strcpy(temp.nim, "13507701");
+    strcpy(temp.nama, "Nana");
+    temp.skor = 64.75;
+    add(temp, &Q);
+
+    strcmp(temp.nim, "13507702");
+    strcmp(temp.nama, "Rudi");
+    temp.skor = 75.11;
+    add(temp, &Q);
+    
+    strcmp(temp.nim, "13507703");
+    strcmp(temp.nama, "Dea");
+    temp.skor = 84.63;
+    add(temp, &Q);
+    
     printQueue(Q);
     printf("=================\n");
     del(&Q);

@@ -4,12 +4,12 @@
 typedef struct{
     char nim[10];
     char nama[50];
-    float nilai;
-}nilaiMatKul;
+    float skor;
+}nilai;
 
 typedef struct elm *alamatelmt;
 typedef struct elm{
-    nilaiMatKul kontainer;
+    nilai kontainer;
     alamatelmt next;
 }elemen;
 
@@ -52,12 +52,10 @@ int countElement(queue Q){
     return hasil;
 }
 
-void add(char nim[], char nama[], float nilai, queue *Q ){
+void add(nilai temp, queue *Q ){
     elemen* baru;
     baru = (elemen *) malloc (sizeof (elemen));
-    strcpy(baru->kontainer.nim, nim);
-    strcpy(baru->kontainer.nama, nama);
-    baru->kontainer.nilai = nilai;
+    baru->kontainer = temp;
     
     baru->next = NULL;
     if((*Q).first == NULL){
@@ -103,7 +101,7 @@ void printQueue(queue Q){
         bantu->kontainer.nama);
 
         printf("nilai : %f\n",
-        bantu->kontainer.nilai);
+        bantu->kontainer.skor);
 
         /* iterasi */
         bantu = bantu->next;
@@ -121,11 +119,24 @@ void printQueue(queue Q){
 int main(){
     queue Q;
     createEmpty(&Q);
+    nilai temp;
     printQueue(Q);
     printf("=================\n");
-    add("13507701", "Nana", 64.75, &Q);
-    add("13507702", "Rudi", 75.11, &Q);
-    add("13507703", "Dea", 84.63, &Q);
+    strcpy(temp.nim, "13507701");
+    strcpy(temp.nama, "Nana");
+    temp.skor = 64.75;
+    add(temp, &Q);
+
+    strcmp(temp.nim, "13507702");
+    strcmp(temp.nama, "Rudi");
+    temp.skor = 75.11;
+    add(temp, &Q);
+    
+    strcmp(temp.nim, "13507703");
+    strcmp(temp.nama, "Dea");
+    temp.skor = 84.63;
+    add(temp, &Q);
+
     printQueue(Q);
     printf("=================\n");
     del(&Q);
