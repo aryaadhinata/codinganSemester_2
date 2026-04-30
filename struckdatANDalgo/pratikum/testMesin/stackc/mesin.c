@@ -57,16 +57,15 @@ void push(nilai temp, stack *S ){
 void popto(stack *S, stack *T){
     if((*S).top != NULL){
         /*jika stack bukan list kosong*/
-        push((*S).top->kontainer, T);
-        elemen *hapus = (*S).top;
+        elemen *pindah = (*S).top;
         
         if(countElement(*S) == 1){
             (*S).top = NULL;
         }else{
             (*S).top = (*S).top->next;
         }
-        hapus->next = NULL;
-        free(hapus);
+        pindah->next = (*T).top;
+        (*T).top = pindah;
     }else{
         printf("stek is emti\n");
     }
