@@ -89,57 +89,57 @@ void delChild(nilai temp, simpul *root){
                 if(root->child->kontainer.konten == temp.konten){
                     delAll(root->child);
                     root->child = NULL;
+                }else{
+                    printf("tidak ada kontainer dengan yang sama dengan masukan\n");
                 }
             }else{
-                printf("tidak ada kontainer dengan yang sama dengan masukan\n");
-            }
-        }else{
-            simpul *prev = NULL;
-            int ketemu = 0;
-            
-            while((hapus->sibling != root->child) && (ketemu == 0)){
-                // jika ada banyak struck maka bandingkan semuanya
-                if(hapus->kontainer.konten == temp.konten){
-                    ketemu = 1;
-                }else{
-                    prev = hapus;
-                    hapus = hapus->sibling;
-                }
-            }
-            
-            // jika ada banyak struck maka bandingkan semuanya
-            if((ketemu == 0) && (hapus->kontainer.konten == temp.konten)){
-                ketemu = 1;
-            }
-
-            if(ketemu == 1){
-                simpul *last = root->child;
+                simpul *prev = NULL;
+                int ketemu = 0;
                 
-                while(last->sibling != root->child){                    
-                    last = last->sibling;
-                }
-
-                if(prev == NULL){
-                    if((hapus->sibling == last) && (last->sibling == root->child)){
-                        root->child = last;
-                        last->sibling = NULL;
+                while((hapus->sibling != root->child) && (ketemu == 0)){
+                    // jika ada banyak struck maka bandingkan semuanya
+                    if(hapus->kontainer.konten == temp.konten){
+                        ketemu = 1;
                     }else{
-                        root->child = hapus->sibling;
-                        last->sibling = root->child;
+                        prev = hapus;
+                        hapus = hapus->sibling;
                     }
                 }
-            }else{
-                if((prev == root->child) && (hapus->sibling == root->child)){
-                    root->child->sibling = NULL;
-                }else{
-                    prev->sibling = hapus->sibling;
-                    hapus->sibling = NULL;
+                
+                // jika ada banyak struck maka bandingkan semuanya
+                if((ketemu == 0) && (hapus->kontainer.konten == temp.konten)){
+                    ketemu = 1;
                 }
+
+                if(ketemu == 1){
+                    simpul *last = root->child;
+                    
+                    while(last->sibling != root->child){                    
+                        last = last->sibling;
+                    }
+
+                    if(prev == NULL){
+                        if((hapus->sibling == last) && (last->sibling == root->child)){
+                            root->child = last;
+                            last->sibling = NULL;
+                        }else{
+                            root->child = hapus->sibling;
+                            last->sibling = root->child;
+                        }
+                    }else{
+                        if((prev == root->child) && (hapus->sibling == root->child)){
+                            root->child->sibling = NULL;
+                        }else{
+                            prev->sibling = hapus->sibling;
+                            hapus->sibling = NULL;
+                        }
+                    }
+                    delAll(hapus);
+                }else{
+                    printf("tidak ada simpul anak yang sama dengan kontainer masukan\n");
+                }   
             }
-            delAll(hapus);
         }
-    }else{
-        printf("tidak ada simpul anak yang sama dengan kontainer masukan\n");
     }
 }
 
