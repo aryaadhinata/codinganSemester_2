@@ -34,7 +34,7 @@ void delAfter(int prev, list *L);
 void delLast(list *L);
 void delAll(list *L);
 
-void pindah(int tunjuk, list L);
+void pindah(int tunjuk, list *L);
 void cek(int batas, list *L);
 
 void printElement(list L);

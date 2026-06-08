@@ -46,8 +46,9 @@ int emptyElement(list L){
 void addFirst(list *L, nilai temp){
     if(countElement(*L) < 100){
         int baru = emptyElement(*L);
+
         (*L).data[baru].kontainer = temp;
-        
+        (*L).data[baru].kontainer.mark = 0;
         if((*L).first == -1){
             (*L).data[baru].next = -1;
         }else{
@@ -65,6 +66,7 @@ void addAfter(int prev, list *L, nilai temp){
         int baru = emptyElement(*L);
 
         (*L).data[baru].kontainer = temp;
+        (*L).data[baru].kontainer.mark = 0;
         if((*L).data[prev].next == -1){
             (*L).data[baru].next = -1;
         }else{
@@ -153,47 +155,65 @@ void delAll(list *L){
     }
 }
 
-void pindah(int tunjuk, list L){
-    int prefPindah = L.first; // list sebelum dipindah
-    int prefAkhir = L.first; // list paling ujung
+void pindah(int tunjuk, list *L){
+    int prefPindah = L->first;
+    int prefAkhir  = L->first;
 
-    if(tunjuk != L.first){ // bukan list pertama
-        while(L.data[prefPindah].next != tunjuk){ // cari pref sebelumnya
-            prefPindah = L.data[prefPindah].next;
+    if(tunjuk != L->first){
+        // cari node sebelum tunjuk
+        while(L->data[prefPindah].next != tunjuk){
+            prefPindah = L->data[prefPindah].next;
         }
-        L.data[prefPindah].next = L.data[tunjuk].next; // iterasi
-    }else{ // list pertama
-        L.first = L.data[prefPindah].next;
+        // putuskan tunjuk dari posisi lamanya
+        L->data[prefPindah].next = L->data[tunjuk].next;
+    } else {
+        // tunjuk adalah node pertama, geser first
+        L->first = L->data[L->first].next;
     }
-    
-    while(L.data[prefAkhir].next != -1){ // cari bagian akhir list
-        prefAkhir = L.data[prefAkhir].next;
-        L.data[prefAkhir] = L.data[prefAkhir].next; // iterasi
-    }
-    
-    L.data[prefAkhir].next = tunjuk; // sambungkan list akhir ke tunjuk
 
-    // free pointer
-    L.data[tunjuk].next = -1; 
-    prefPindah = -1;
-    prefAkhir = -1;
+    // cari node paling akhir
+    while(L->data[prefAkhir].next != -1){
+        prefAkhir = L->data[prefAkhir].next;
+    }
+
+    // sambungkan akhir → tunjuk, dan tunjuk jadi ekor
+    L->data[prefAkhir].next = tunjuk;
+    L->data[tunjuk].next    = -1;
 }
 
 void cek(int batas, list *L){
     int tunjuk = (*L).first;
-    while((tunjuk != -1) && ((*L).data[tunjuk].kontainer.mark != 1)){ // cek selama belum sampai ujung dan juga belum ketemu list yang dipindahkan kebelakang
-        int untungKasar = (*L).data[tunjuk].kontainer.kuota * (*L).data[tunjuk].kontainer.harJul; // agar lebih mudah untuk mengkondisikannya
-        if(untungKasar < (*L).data[tunjuk].kontainer.biPeng){ // jika tidak ada untungnya sama sekali
-            if(tunjuk == (*L).first){ // jika dibagian awal array langsung delFirst
+
+    while(tunjuk != -1){
+        // cek apakah node ini sudah pernah dipindahkan (mark = 1 → berhenti)
+        if((*L).data[tunjuk].kontainer.mark == 1) break;
+
+        int untungKasar = (*L).data[tunjuk].kontainer.kuota * (*L).data[tunjuk].kontainer.harJul;
+        int next = (*L).data[tunjuk].next; // simpan next SEBELUM operasi apapun
+
+        if(untungKasar < (*L).data[tunjuk].kontainer.biPeng){
+            // hapus tunjuk
+            if(tunjuk == (*L).first){
                 delFirst(L);
-            }else{ // selain itu langsung delafter (kayaknya salah hapus deh harusnya yang sebelumnya bukan tunjuk sekarang)
-                delAfter(tunjuk, L);
+                tunjuk = (*L).first; // first sudah bergeser
+            }else{
+                // cari prev
+                int prev = (*L).first;
+                while((*L).data[prev].next != tunjuk){
+                    prev = (*L).data[prev].next;
+                }
+                delAfter(prev, L);   // hapus tunjuk (node setelah prev)
+                tunjuk = next;       // lanjut ke node berikutnya
             }
-        }else if(untungKasar - (*L).data[tunjuk].kontainer.biPeng < batas){ // ada untung tetapi belum melewati trashhold
-            (*L).data[tunjuk].kontainer.mark = 1; // penanda list sudah dipindahkan
-            pindah(tunjuk, *L); // prosedur untuk memindahkan
+
+        }else if(untungKasar - (*L).data[tunjuk].kontainer.biPeng < batas){
+            (*L).data[tunjuk].kontainer.mark = 1;
+            pindah(tunjuk, L);
+            tunjuk = next; // next sudah disimpan sebelum pindah
+
+        }else{
+            tunjuk = next; // untung >= batas, lanjut saja
         }
-        tunjuk = (*L).data[tunjuk].next; // iterasi
     }
 }
 
