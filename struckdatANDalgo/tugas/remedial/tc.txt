@@ -1,0 +1,20 @@
+4
+perA perusahaanA
+3
+perA paracetamol 3 2022 sirup
+perA paracetamol 3 2022 tablet
+perA gentamicin 2 2021 tablet
+perB perusahaanB
+2
+perB termorex 4 2022 sirup
+perB termorex 2 2021 tablet
+perC perusahaanC
+1
+perC sucralfate 1 2022 sirup
+perD perusahaanD
+4
+perD alphara 4 2022 tablet
+perD sucralfate 5 2022 tablet
+perD bodrexin 6 2022 sirup
+perD komiks 7 2022 sirup
+3 2022
