@@ -1,0 +1,15 @@
+5
+hidup#null#0#4
+A
+B
+C
+D
+A#hidup#10#1
+peluang_a
+B#hidup#20#1
+peluang_b
+C#hidup#30#1
+peluang_c
+D#hidup#40#1
+peluang_d
+D
